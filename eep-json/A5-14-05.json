@@ -1,0 +1,33 @@
+{
+    "EepDefinitions" : {
+    "profile" : "A5-14-05",
+    "friendlyId" : "VibrationTilt",
+    "title" : "Vibration/Tilt- Supply voltage monitor",
+    "functions" : [
+            {
+                "ValueType" : "Data",
+                "DataName" : "Supply voltage",
+                "ShortCut" : "SVC",
+                "Bitoffs" : "0",
+                "Bitsize" : "8",
+                "RangeMin" : "0",
+                "RangeMax" : "255",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "5.000",
+                "Unit" : "V"
+            },
+            {
+                "ValueType" : "Enum",
+                "DataName" : "Vibration",
+                "ShortCut" : "VIB",
+                "Bitoffs" : "30",
+                "Bitsize" : "1",
+                "RangeMin" : "0",
+                "RangeMax" : "1",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "1.000",
+                "Unit" : ""
+             }
+         ]
+    }
+}

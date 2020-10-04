@@ -1,0 +1,45 @@
+{
+    "EepDefinitions" : {
+    "profile" : "A5-04-03",
+    "friendlyId" : "TemperatureHumidity",
+    "title" : "Temperature and Humidity Sensor",
+    "functions" : [
+            {
+                "ValueType" : "Data",
+                "DataName" : "Humidity",
+                "ShortCut" : "HUM",
+                "Bitoffs" : "0",
+                "Bitsize" : "8",
+                "RangeMin" : "0",
+                "RangeMax" : "255",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "100.000",
+                "Unit" : "%"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Temperature",
+                "ShortCut" : "TMP",
+                "Bitoffs" : "14",
+                "Bitsize" : "10",
+                "RangeMin" : "0",
+                "RangeMax" : "1023",
+                "ScaleMin" : "-20.000",
+                "ScaleMax" : "60.000",
+                "Unit" : "℃"
+            },
+            {
+                "ValueType" : "Enum",
+                "DataName" : "Telegram Type",
+                "ShortCut" : "TTP",
+                "Bitoffs" : "31",
+                "Bitsize" : "1",
+                "RangeMin" : "0",
+                "RangeMax" : "1",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "1.000",
+                "Unit" : ""
+             }
+         ]
+    }
+}

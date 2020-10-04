@@ -1,0 +1,21 @@
+{
+    "EepDefinitions" : {
+    "profile" : "A5-02-05",
+    "friendlyId" : "TemperatureSensor",
+    "title" : "Temperature Sensor Range 0°C to +40°C",
+    "functions" : [
+            {
+                "ValueType" : "Data",
+                "DataName" : "Temperature",
+                "ShortCut" : "TMP",
+                "Bitoffs" : "16",
+                "Bitsize" : "8",
+                "RangeMin" : "255",
+                "RangeMax" : "0",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "40.000",
+                "Unit" : "℃"
+             }
+         ]
+    }
+}

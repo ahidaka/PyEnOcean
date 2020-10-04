@@ -1,0 +1,21 @@
+{
+    "EepDefinitions" : {
+    "profile" : "D5-00-01",
+    "friendlyId" : "SingleInput",
+    "title" : "Single Input Contact",
+    "functions" : [
+            {
+                "ValueType" : "Enum",
+                "DataName" : "Contact",
+                "ShortCut" : "CO",
+                "Bitoffs" : "7",
+                "Bitsize" : "1",
+                "RangeMin" : "0",
+                "RangeMax" : "1",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "1.000",
+                "Unit" : ""
+             }
+         ]
+    }
+}

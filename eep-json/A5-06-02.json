@@ -1,0 +1,57 @@
+{
+    "EepDefinitions" : {
+    "profile" : "A5-06-02",
+    "friendlyId" : "LightSensor",
+    "title" : "Light Sensor",
+    "functions" : [
+            {
+                "ValueType" : "Data",
+                "DataName" : "Supply voltage",
+                "ShortCut" : "SVC",
+                "Bitoffs" : "0",
+                "Bitsize" : "8",
+                "RangeMin" : "0",
+                "RangeMax" : "255",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "5.100",
+                "Unit" : "V"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Illumination 2",
+                "ShortCut" : "ILL2",
+                "Bitoffs" : "8",
+                "Bitsize" : "8",
+                "RangeMin" : "0",
+                "RangeMax" : "255",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "510.000",
+                "Unit" : "lx"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Illumination 1",
+                "ShortCut" : "ILL1",
+                "Bitoffs" : "16",
+                "Bitsize" : "8",
+                "RangeMin" : "0",
+                "RangeMax" : "255",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "1020.000",
+                "Unit" : "lx"
+            },
+            {
+                "ValueType" : "Enum",
+                "DataName" : "Range select",
+                "ShortCut" : "RS",
+                "Bitoffs" : "31",
+                "Bitsize" : "1",
+                "RangeMin" : "0",
+                "RangeMax" : "1",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "1.000",
+                "Unit" : ""
+             }
+         ]
+    }
+}

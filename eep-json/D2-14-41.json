@@ -1,0 +1,117 @@
+{
+    "EepDefinitions" : {
+    "profile" : "D2-14-41",
+    "friendlyId" : "MultiFunction",
+    "title" : "Multi Function Sensors",
+    "functions" : [
+            {
+                "ValueType" : "Data",
+                "DataName" : "Temperature 10",
+                "ShortCut" : "TP",
+                "Bitoffs" : "0",
+                "Bitsize" : "10",
+                "RangeMin" : "0",
+                "RangeMax" : "1000",
+                "ScaleMin" : "-40.000",
+                "ScaleMax" : "60.000",
+                "Unit" : "℃"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Humidity",
+                "ShortCut" : "HU",
+                "Bitoffs" : "10",
+                "Bitsize" : "8",
+                "RangeMin" : "0",
+                "RangeMax" : "200",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "100.000",
+                "Unit" : "%"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Illumination",
+                "ShortCut" : "IL",
+                "Bitoffs" : "18",
+                "Bitsize" : "17",
+                "RangeMin" : "0",
+                "RangeMax" : "100000",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "100000.000",
+                "Unit" : "lx"
+            },
+            {
+                "ValueType" : "Enum",
+                "DataName" : "Acceleration Status",
+                "ShortCut" : "AS",
+                "Bitoffs" : "35",
+                "Bitsize" : "2",
+                "RangeMin" : "0",
+                "RangeMax" : "3",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "3.000",
+                "Unit" : ""
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Acceleration X",
+                "ShortCut" : "AX",
+                "Bitoffs" : "37",
+                "Bitsize" : "10",
+                "RangeMin" : "0",
+                "RangeMax" : "1000",
+                "ScaleMin" : "-2.500",
+                "ScaleMax" : "2.500",
+                "Unit" : "g"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Acceleration Y",
+                "ShortCut" : "AY",
+                "Bitoffs" : "47",
+                "Bitsize" : "10",
+                "RangeMin" : "0",
+                "RangeMax" : "1000",
+                "ScaleMin" : "-2.500",
+                "ScaleMax" : "2.500",
+                "Unit" : "g"
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "Acceleration Z",
+                "ShortCut" : "AZ",
+                "Bitoffs" : "57",
+                "Bitsize" : "10",
+                "RangeMin" : "0",
+                "RangeMax" : "1000",
+                "ScaleMin" : "-2.500",
+                "ScaleMax" : "2.500",
+                "Unit" : "g"
+            },
+            {
+                "ValueType" : "Enum",
+                "DataName" : "Contact",
+                "ShortCut" : "CO",
+                "Bitoffs" : "67",
+                "Bitsize" : "1",
+                "RangeMin" : "0",
+                "RangeMax" : "1",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "1.000",
+                "Unit" : ""
+            },
+            {
+                "ValueType" : "Data",
+                "DataName" : "",
+                "ShortCut" : "",
+                "Bitoffs" : "0",
+                "Bitsize" : "0",
+                "RangeMin" : "0",
+                "RangeMax" : "0",
+                "ScaleMin" : "0.000",
+                "ScaleMax" : "0.000",
+                "Unit" : ""
+             }
+         ]
+    }
+}
