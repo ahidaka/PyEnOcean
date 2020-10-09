@@ -13,20 +13,37 @@ class Profile():
         self.top = json.load(self.json)
 
         self.outputlist = {}
+        self.datafields = {}
 
         self.SZ = 8
         self.SEVEN = 7
 
     def printall(self):
         print()
-        print(self.top['EepDefinitions']['profile'])
-        print(self.top['EepDefinitions']['title'])
+        print(self.top['EepDefinitions']['profile']) ##sample
+        print(self.top['EepDefinitions']['title']) ##sample
+
+        print(self.top['EepDefinitions']['functions']) ##sample
         print()
 
-        temp_prof = self.top['functions']['DataName']
+    def convert(self):
+        self.data_fields = self.top['EepDefinitions']['functions']
 
-        #for v in ["TP", ... ] #function
-        #    print(v)
+        print()
+        print('** convert **')
+        for df in self.data_fields:
+            print()
+            print('SC:' + df['ShortCut'])
+            print('RI:' + df['RangeMin'])
+            print('RA:' + df['RangeMax'])
+            print('SI:' + df['ScaleMin'])
+            print('SA:' + df['ScaleMax'])
+            print()
+            df['slope'] = self.calc_a(df['RangeMin'], df['ScaleMin'], df['RangeMax'], df['ScaleMax'])
+            df['offset'] = self.calc_b(df['RangeMin'], df['ScaleMin'], df['RangeMax'], df['ScaleMax'])
+            print('SL:{}'.format(df['slope']))
+            print('OF:{}'.format(df['offset']))
+            print()
 
     def add_outiems(self, item_name, seq):
         self.outputlist[item_name] = seq
@@ -48,27 +65,21 @@ class Profile():
         '''
 
         for df in self.datafields:
-            if 'slope' not in df:
-                df['slope'] = self.calc_a(df['RangeMin'], df['ScaleMin'], df['RangeMax'], df['ScaleMax'])
-            if 'offset' not in df:
-                df['offset'] = self.calc_b(df['RangeMin'], df['ScaleMin'], df['RangeMax'], df['ScaleMax'])
+            partialData = self.get_bits(data, df['BitOffs'], df['BitSize'])
 
-            partialData = (int) self.get_bits(data, df['BitOffs'], df['BitSize'];
-
-            if df['ValueType'] == vt_data:
+            if df['ValueType'] == "Data":
                 value = partialData * slope + offset
             else:
-                value = partialData;
+                value = partialData
 
             if df['ShortCut'] in self.output_list:
                 output(df['ShortCut'], value)
 
+    def calc_a(self, x1, y1, x2, y2):
+        return (float(y1) - float(y2)) / (float(x1) - float(x2))
 
-    def calc_a(self, r_min, s_min, r_max, s_max):
-        return (y1 - y2) / (x1 - x2)
-
-    def calc_b(self, r_min, s_min, r_max, s_max):
-        return (x1 * y2 - x2 * y1) / (x1 - x2)
+    def calc_b(self, x1, y1, x2, y2):
+        return (float(x1) * float(y2) - float(x2) * float(y1)) / (float(x1) - float(x2))
 
     def get_bits(self, inArray, start, leng):
         """
@@ -102,6 +113,9 @@ def main():
 
     eep = Profile()
     eep.printall()
+
+    eep.convert()
+
         
 if __name__ == "__main__" :
     main()
