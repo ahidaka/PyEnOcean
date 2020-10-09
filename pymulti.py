@@ -56,9 +56,8 @@ class Usage():
         "    D5-00-01.json",
         ]
 
-    @staticmethod
-    def printall():
-        for line in usage_line:
+    def printall(self):
+        for line in self.usage_line:
             print(line)
 
 
@@ -67,13 +66,14 @@ class SystemControl():
     Analyse start up parameters
     '''
     logger = logging.getLogger('enocean.PyMulti.SystemControl')
-    json_file = "D2-14-41.json"
+    json_file = "eep-json/D2-14-41.json"
 
     def __init__(self):
         self.parameters = {
             #'u' : 0, # output with unit
             #'j' : 0, # json output
             'c' : 1, # CSV output, default
+            'p' : 1, # point name output, default
             #'t' : 0, # Timestamp
             #'l' : 0, # Learn for TeachIn
             #'f' : 0, # Filter
@@ -91,18 +91,20 @@ class SystemControl():
             c = ''
             option = ''
 
-            if arg[0] == '-' or arg[0] == '+':
+            if arg == 'help' or arg.endswith('?'):
+                usage = Usage()
+                usage.printall()
+                sys.exit(0)
+
+            elif arg[0] == '-' or arg[0] == '+':
                 #print("opt<" + arg[0] + "> found") ####
-                oprion = arg[0]
+                option = arg[0]
                 c = arg[1]
                 self.set_flag(c, option)
 
             elif type(arg) is str and arg.endswith(('.json', '.JSON')):
                 self.json_file = arg
                 #print("json<" + arg + "> found") ####
-
-            elif arg == 'help' or arg.endswith('?'):
-                Usage.printall()
 
             elif i != 0:
                 #print("other<" + arg + "> found") ####
@@ -112,12 +114,13 @@ class SystemControl():
 
     def set_flag(self, key, option = 1):
         number = 0
+        #print('key=%s option=%s' % (key, option))
         if (type(option) is int):
             number = option
-        elif (option == '+'):
-            number = 1
+        #elif (option == '+'):
+        #    number = 1
         elif (option == '-'):
-            number = -1
+            number = 1
         if number != 0:
             if key in self.parameters:
                 self.parameters[key] += number
@@ -197,7 +200,7 @@ class Profile():
         for k, v in self.output_list.items():
             self.logger.debug('print_outitems:%s=%d' % (k, v))
 
-    def operation(self, data):
+    def operation(self, sc, data):
         '''
         Main process to handle data and output
 
@@ -215,9 +218,8 @@ class Profile():
 
         self.logger.debug('operation:')
 
+        output_line = ""
         for df in self.data_fields:
-
-            ####print('SC=' + df['ShortCut']) ####
 
             partialData = self.get_bits(data, int(df['Bitoffs']), int(df['Bitsize']))
             if df['ValueType'] == "Data":
@@ -226,12 +228,21 @@ class Profile():
                 value = partialData
 
             #######################################
-            print("%s: %f = %d * %f + %f" % (df['ShortCut'], value, partialData, df['slope'], df['offset']))
+            #print("%s: %f = %d * %f + %f" % (df['ShortCut'], value, partialData, df['slope'], df['offset']))
             #######################################
 
             if df['ShortCut'] in self.output_list:
-                self.logger.debug('operation:point=' + df['ShortCut'])
-                print('%s=%d' % (df['ShortCut'], value))
+                #print('%s=%f' % (df['ShortCut'], value))
+                new_item = ""
+                if sc.get_flag('p'):
+                    new_item += df['ShortCut'] + '='
+                new_item += f'{value:.2f}'
+                if sc.get_flag('u'):
+                    new_item += df['Unit']
+                new_item += ','
+                output_line += new_item
+
+        print(output_line)
 
     def calc_a(self, x1, y1, x2, y2):
         return (float(y1) - float(y2)) / (float(x1) - float(x2))
@@ -276,9 +287,9 @@ def main():
         import Queue as queue
 
     #init_logging(level=logging.NOTSET)
-    init_logging(level=logging.DEBUG)
+    #init_logging(level=logging.DEBUG)
     #init_logging(level=logging.INFO)
-    #init_logging(level=logging.WARNING)
+    init_logging(level=logging.WARNING)
 
     sc = SystemControl()
     sc.setup()
@@ -293,9 +304,8 @@ def main():
     for k, v in sc.point_lists.items():
         eep.add_outitems(k, 1)
 
-    eep.print_outitems()
-    eep.print_datafields()
-
+    #eep.print_outitems()
+    #eep.print_datafields()
     #print()
 
     #print('flags')
@@ -319,8 +329,8 @@ def main():
             # Loop to empty the queue...
             packet = communicator.receive.get(block=True, timeout=1)
 
-            if packet.packet_type == PACKET.RADIO_ERP2:
-                print('Packet ERP2: %02X' % packet.rorg)
+            #if packet.packet_type == PACKET.RADIO_ERP2:
+            #    print('Packet ERP2: %02X' % packet.rorg)
 
             #print('*** packet ***')
             #print(packet)
@@ -328,39 +338,36 @@ def main():
 
             if packet.packet_type == PACKET.RADIO_ERP2:
                 if packet.rorg == RORG.VLD:
-                    print('ERP2 VLD found')
+                    #print('ERP2 VLD found')
 
                     if len(packet.data) == 15:
                         # shuld be a multi sensor
                         #print('@%s' % ([hex(o) for o in packet.data]))
-                        eep.operation(packet.data[5:])
+                        eep.operation(sc, packet.data[5:])
 
                 elif packet.rorg == RORG.BS4:
                     print('ERP2 4BS found')
-                    # parse packet with given FUNC and TYPE
-                    for k in packet.parse_eep(0x02, 0x05):
-                        print('%s: %s' % (k, packet.parsed[k]))
+                    ## parse packet with given FUNC and TYPE
+                    #for k in packet.parse_eep(0x02, 0x05):
+                    #    print('%s: %s' % (k, packet.parsed[k]))
 
                 elif  packet.rorg == RORG.BS1:
                     # alternatively you can select FUNC and TYPE explicitely
                     print('ERP2 1BS found')
-                    packet.select_eep(0x00, 0x01)
-                    # parse it
-                    packet.parse_eep()
-                    for k in packet.parsed:
-                        print('%s: %s' % (k, packet.parsed[k]))
+                    #packet.select_eep(0x00, 0x01)
+                    ## parse it
+                    #packet.parse_eep()
+                    #for k in packet.parsed:
+                    #    print('%s: %s' % (k, packet.parsed[k]))
 
                 elif packet.rorg == RORG.RPS:
                     print('ERP2 RPS found')
                     #for k in packet.parse_eep(0x02, 0x02):
-                    for k in packet.parse_eep(0x02, 0x04): #Japan, 928MHz (F6-02-04)
-                        print('%s: %s' % (k, packet.parsed[k]))
+                    #for k in packet.parse_eep(0x02, 0x04): #Japan, 928MHz (F6-02-04)
+                    #    print('%s: %s' % (k, packet.parsed[k]))
 
                 elif packet.rorg == RORG.UTE:
                     print('ERP2 UTE found')
-                    #for k in packet.parse_eep(0x02, 0x02):
-                    #for k in packet.parse_eep(0x02, 0x04): #Japan, 928MHz (F6-02-04)
-                    #    print('%s: %s' % (k, packet.parsed[k]))
 
                 else:
                     print('ERP2 unkown packet')
