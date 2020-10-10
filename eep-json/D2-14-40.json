@@ -87,19 +87,7 @@
                 "ScaleMin" : "-2.500",
                 "ScaleMax" : "2.500",
                 "Unit" : "g"
-            },
-            {
-                "ValueType" : "Data",
-                "DataName" : "",
-                "ShortCut" : "",
-                "Bitoffs" : "0",
-                "Bitsize" : "0",
-                "RangeMin" : "0",
-                "RangeMax" : "0",
-                "ScaleMin" : "0.000",
-                "ScaleMax" : "0.000",
-                "Unit" : ""
-             }
+            }
          ]
     }
 }

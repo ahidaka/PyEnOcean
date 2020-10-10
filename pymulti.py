@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
 
-from enocean.consolelogger import init_logging
-import enocean.utils
-from enocean.communicators.serialcommunicator import SerialCommunicator
-from enocean.protocol.packet import RadioPacket
-from enocean.protocol.constants import PACKET, RORG
 import sys
 import traceback
 import json
 import logging
+
+from enocean.consolelogger import init_logging
+import enocean.utils
+from serialcommunicator import SerialCommunicator
+from packet import Packet
+from enocean.protocol.constants import PACKET, RORG
 
 class Usage():
     '''
@@ -27,12 +28,12 @@ class Usage():
         "",
         "options:",
         "    [-u]  add unit to displsy",
-        "    [-j]  output with json format",
+        #"    [-j]  output with json format",
         "    [-c]  output with CSV format (default)",
         "    [-p]  output with prefix point name at CSV (default)",
-        "    [-t]  output with time stamp",
+        #"    [-t]  output with time stamp",
         "    [-l]  accept teach-In telegram by LEARN button",
-        "    [-f]  apply telegram filter (after teach-In received)",
+        #"    [-f]  apply telegram filter (after teach-In received)",
         "",
         "point name:",
         "    TP - Temperature 10",

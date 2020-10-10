@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-from enocean.consolelogger import init_logging
-import enocean.utils
-from enocean.communicators.serialcommunicator import SerialCommunicator
-from enocean.protocol.packet import RadioPacket
-from enocean.protocol.constants import PACKET, RORG
 import sys
 import traceback
 import logging
+
+from packet import Packet, PacketType, Radio2Packet
+from serialcommunicator import SerialCommunicator
+from enocean.consolelogger import init_logging
+import enocean.utils
+from enocean.protocol.constants import PACKET, RORG
+
+
 
 try:
     import queue
@@ -23,8 +26,12 @@ except ImportError:
 #                              ES='true')
 
 
-init_logging()
-communicator = SerialCommunicator()
+#init_logging(level=logging.NOTSET)
+init_logging(level=logging.DEBUG)
+#init_logging(level=logging.INFO)
+#init_logging(level=logging.WARNING)
+
+communicator = SerialCommunicator(port='/dev/ttyUSB0')
 communicator.start()
 #print('The Base ID of your module is %s.' % enocean.utils.to_hex_string(communicator.base_id))
 
@@ -102,7 +109,7 @@ while communicator.is_alive():
                 #    print('%s: %s' % (k, packet.parsed[k]))
 
             else:
-                print('ERP2 unkown packet')
+                print('ERP2 unkown packet rorg=%02X' % (packet.rorg))
 
     except queue.Empty:
         continue
